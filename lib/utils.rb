@@ -4,15 +4,15 @@ class Utils
     # Example:
     #   Input: {people: {person: {name: 'My Name'}}}
     #   Output: {"people.person.name"=>"My Name"}
-    def convert_to_dotted_hash(data_hash, parent_key = '')
+    def convert_to_dotted_hash(data_hash, parent_key = nil)
       return {} unless data_hash.is_a?(Hash)
 
       result = {}
 
       data_hash.each do |key, value|
-        tmp_key = parent_key + key.to_s
+        tmp_key = parent_key ? "#{parent_key}.#{key.to_s}" : key.to_s
         if value.is_a?(Hash)
-          result.merge!(convert_to_dotted_hash(value, tmp_key + '.'))
+          result.merge!(convert_to_dotted_hash(value, tmp_key))
         else
           result[tmp_key] = value
         end
@@ -23,7 +23,7 @@ class Utils
 
     # Example:
     #   Input: {id: %i[Id hotel_id id]}
-    #   Output: {"Id"=>id, "hotel_id"=>"id", "id"=>"id"}
+    #   Output: {"Id"=>"id", "hotel_id"=>"id", "id"=>"id"}
     def build_map_keys(schema_keys, parent_key=nil)
       return {} unless schema_keys.is_a?(Hash)
 
@@ -48,7 +48,7 @@ class Utils
     #   Input: {"other"=>"value"}, "people.person.name", "My Name"
     #   Output: {"other"=>"value", "people"=>{"person"=>{"name"=>"My Name"}}}
     def merge_nested_hash_with_key(data_hash, key, value)
-      return data_hash unless data_hash.is_a?(Hash)
+      return {} unless data_hash.is_a?(Hash)
 
       tmp_hash = data_hash
       keys = key.split('.')
@@ -61,7 +61,7 @@ class Utils
         end
       end
 
-      hash
+      data_hash
     end
 
     # Example:
