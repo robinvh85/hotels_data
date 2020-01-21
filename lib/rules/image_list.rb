@@ -8,11 +8,11 @@ module Rules
         Rules::Constants::RULE_TYPE_TRANSFORM
       end
 
-      def process(images_list)
-        return nil unless images_list.is_a?(Array)
+      def process(value)
+        return value unless value.is_a?(Array)
 
         result = []
-        images_list.each do |item|
+        value.each do |item|
           image_object = parse_image_object(item)
           next unless image_object
 

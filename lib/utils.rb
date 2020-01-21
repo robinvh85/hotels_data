@@ -48,7 +48,7 @@ class Utils
     #   Input: {"other"=>"value"}, "people.person.name", "My Name"
     #   Output: {"other"=>"value", "people"=>{"person"=>{"name"=>"My Name"}}}
     def merge_nested_hash_with_key(data_hash, key, value)
-      return {} unless data_hash.is_a?(Hash)
+      return {} if !data_hash.is_a?(Hash) || key.nil? || key.empty?
 
       tmp_hash = data_hash
       keys = key.split('.')
@@ -66,7 +66,7 @@ class Utils
 
     # Example:
     #   Input: {"Latitude"=>1.2}, {"Latitude"=>"location.lat"}
-    #   Output: {"location"=>{"lat"=>1.264751}
+    #   Output: {"location"=>{"lat"=>1.2}
     def transform_data_with_map(data_hash, mapped_keys)
       return {} if !data_hash.is_a?(Hash) || !mapped_keys.is_a?(Hash)
 
