@@ -78,6 +78,22 @@ curl --location --request POST 'http://localhost:3000/api/hotels/search' \
 }'
 ```
 
+## Endpoints
+### POST /api/hotels/search
+- Params: required at least `hotel_ids` or `destination_id` has value
+  - `hotel_ids` [Array]: ids of hotel
+  - `destination_id` [number]: id of destination
+
+- Example call API using curl:
+```
+curl --location --request POST 'http://localhost:3000/api/hotels/search' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+  "destination_id":5432,
+  "hotel_ids": ["iJhz", "SjyX"]
+}'
+```
+
 ## Describe more for the way to transform raw data to clean data (class Trackers::HotelTracker)
 ### Define structure
 - Constant `HOTEL_SCHEMA_MAP` : define the structure of clean data with values are appropriate keys of raw data.
