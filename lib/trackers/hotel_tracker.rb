@@ -59,10 +59,13 @@ module Trackers
       raw_hotels_data = get_data_from_supplier
       return unless raw_hotels_data.is_a?(Array)
 
-      raw_hotels_data.each do |data|
-        hash_data = Utils.convert_to_dotted_hash(data)
-        clear_hotel_data = Utils.transform_data_with_map(hash_data, hotel_mapped_keys)
-        merge_and_save(clear_hotel_data)
+      raw_hotels_data.each do |raw_data|
+        # sanitize raw data
+        hash_data = Utils.convert_to_dotted_hash(raw_data)
+        clean_hotel_data = Utils.transform_data_with_map(hash_data, hotel_mapped_keys)
+
+        # transform, merge data and save data
+        merge_and_save(clean_hotel_data)
       end
     end
 
@@ -92,16 +95,16 @@ module Trackers
         })
       end
 
-      current_hotel.detail = merge_data(HOTEL_SCHEMA_RULES, current_hotel.detail, new_hotel_data)
+      current_hotel.detail = process_data(HOTEL_SCHEMA_RULES, current_hotel.detail, new_hotel_data)
       current_hotel.save
     end
 
-    def merge_data(schema_rules, current_data, new_data)
+    def process_data(schema_rules, current_data, new_data)
       new_data.keys.each do |field|
         if schema_rules.key?(field.to_sym)
           if new_data[field].is_a?(Hash)
             current_data[field] = {} unless current_data[field]
-            current_data[field] = merge_data(schema_rules[field.to_sym], current_data[field], new_data[field])
+            current_data[field] = process_data(schema_rules[field.to_sym], current_data[field], new_data[field])
           else
             rules = schema_rules[field.to_sym]
             rules.each do |rule|

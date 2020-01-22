@@ -6,8 +6,8 @@ module Rules
       end
 
       def process(old_value, new_value)
-        return old_value unless new_value.is_a?(Array)
-        return new_value unless old_value
+        return old_value if !new_value.is_a?(Array)
+        return new_value if old_value.nil? || !old_value.is_a?(Array)
 
         (old_value | new_value).uniq
       end

@@ -6,7 +6,7 @@ module Rules
       end
 
       def process(value)
-        return nil unless value
+        return value if value.nil? || !(value.is_a?(String) || value.is_a?(Array))
 
         if value.is_a?(String)
           value.downcase
