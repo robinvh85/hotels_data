@@ -91,11 +91,11 @@ curl --location --request POST 'http://localhost:3000/api/hotels/search' \
   - `type = Rules::Constants::RULE_TYPE_CHOICE` : are rules compare between current data and new data and do an action. (the action can be choice better data or merge data)
 
 #### Describe rules
-- `Rules:LowerCase`: transform by lowercase values
-- `Rules:ImageList`: transform image object to valid image object
-- `Rules:TrimString`: transform by trim values
+- `Rules::LowerCase`: transform by lowercase values
+- `Rules::ImageList`: transform image object to valid image object
+- `Rules::TrimString`: transform by trim values
 - `Rules::BetterLength`: choose better value when length better
-- `Rules:MergingList`: merge values if there are some new value
+- `Rules::MergingList`: merge values if there are some new value
 
 ### Steps to process data
 - Step 1: get raw data from supplier

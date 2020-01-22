@@ -66,7 +66,7 @@ class Utils
 
     # Example:
     #   Input: {"Latitude"=>1.2}, {"Latitude"=>"location.lat"}
-    #   Output: {"location"=>{"lat"=>1.2}
+    #   Output: {"location"=>{"lat"=>1.2}}
     def transform_data_with_map(data_hash, mapped_keys)
       return {} if !data_hash.is_a?(Hash) || !mapped_keys.is_a?(Hash)
 
